@@ -1,0 +1,26 @@
+{
+  "cli": {
+    "version": ">= 10.0.0",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "production": {
+      "env": {
+        "BRANCH": "production"
+      },
+      "node": "20.19.4",
+      "autoIncrement": true
+    },
+    "staging": {
+      "env": {
+        "BRANCH": "staging"
+      },
+      "node": "20.19.4",
+      "autoIncrement": true
+    },
+    "development": {
+      "developmentClient": true,
+      "node": "20.19.4"
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "expo": {
+    "name": "EstateIQ Resident",
+    "slug": "EstateIQ",
+    "version": "5.2.2",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1037B5"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "icon": "./assets/icon.png",
+      "supportsTablet": true,
+      "bundleIdentifier": "com.estateiq.estateiq",
+      "buildNumber": "31",
+      "infoPlist": {
+        "NSCameraUsageDescription": "EstateIQ needs to access your camera to set image as profile avatar",
+        "NSPhotoLibraryUsageDescription": "EstateIQ needs to access your photo library to set image as profile avatar",
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.estateiq.estateiq",
+      "versionCode": 62,
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "8729b087-9078-42fb-a438-808d36e65dbc"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/8729b087-9078-42fb-a438-808d36e65dbc",
+      "enabled": true,
+      "checkAutomatically": "ON_LOAD",
+      "fallbackToCacheTimeout": 0,
+      "channel": "production"
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "EstateIQ needs to access your camera to set image as profile avatar",
+          "cameraPermission": "EstateIQ needs to access your photo library to set image as profile avatar"
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "enableProguardInReleaseBuilds": true
+          }
+        }
+      ],
+      "expo-font"
+    ]
+  }
+}

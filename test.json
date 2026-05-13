@@ -1,0 +1,151 @@
+{
+  "data": { "status": "NOT_STARTED" },
+  "status": 200,
+  "headers": {
+    "allow": "GET, HEAD, OPTIONS",
+    "connection": "keep-alive",
+    "content-length": "24",
+    "content-type": "application/json",
+    "cross-origin-opener-policy": "same-origin",
+    "date": "Thu, 23 Apr 2026 15:51:33 GMT",
+    "referrer-policy": "same-origin",
+    "server": "nginx/1.22.0 (Ubuntu)",
+    "strict-transport-security": "max-age=3600; includeSubDomains; preload",
+    "vary": "Accept, Origin",
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "DENY"
+  },
+  "config": {
+    "transitional": {
+      "silentJSONParsing": true,
+      "forcedJSONParsing": true,
+      "clarifyTimeoutError": false
+    },
+    "adapter": ["xhr", "http", "fetch"],
+    "transformRequest": [null],
+    "transformResponse": [null],
+    "timeout": 600000,
+    "xsrfCookieName": "XSRF-TOKEN",
+    "xsrfHeaderName": "X-XSRF-TOKEN",
+    "maxContentLength": -1,
+    "maxBodyLength": -1,
+    "env": {},
+    "headers": {
+      "Accept": "application/json, text/plain, */*",
+      "Content-Type": "application/json",
+      "EstateIQ-Sk-Header": "22-wchvhshcjbdnvjb-2244-vsjdjbd",
+      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc3ODIyNDU3LCJpYXQiOjE3NzY5NTg0NTcsImp0aSI6IjI0MTJiZjU3MTBkNTQ0OGU5NTBkOWE2YWI4MTQ5MDhlIiwidXNlcl9pZCI6IjM3OGY5MDVjLWI1M2EtNDE2Mi05MTRlLTA0MWFhNWUyNWMyMSJ9.R1_tySQrHMgtQeVuFbEa_RffXF3deiLV7gA7itCYYsY"
+    },
+    "baseURL": "https://api.estateiq.ng/api/v1",
+    "method": "get",
+    "url": "estate_payment/virtualaccountstatus/?estate_id=EIQ72424",
+    "allowAbsoluteUrls": true,
+    "axios-retry": {
+      "retries": 3,
+      "shouldResetTimeout": true,
+      "validateResponse": null,
+      "retryCount": 0,
+      "lastRequestTime": 1776959486790
+    }
+  },
+  "request": {
+    "UNSENT": 0,
+    "OPENED": 1,
+    "HEADERS_RECEIVED": 2,
+    "LOADING": 3,
+    "DONE": 4,
+    "readyState": 4,
+    "status": 200,
+    "timeout": 600000,
+    "withCredentials": true,
+    "upload": {},
+    "_aborted": false,
+    "_hasError": false,
+    "_method": "GET",
+    "_perfKey": "network_XMLHttpRequest_https://api.estateiq.ng/api/v1/estate_payment/virtualaccountstatus/?estate_id=EIQ72424",
+    "_response": "{\"status\":\"NOT_STARTED\"}",
+    "_url": "https://api.estateiq.ng/api/v1/estate_payment/virtualaccountstatus/?estate_id=EIQ72424",
+    "_timedOut": false,
+    "_incrementalEvents": false,
+    "_startTime": 2217597.494412,
+    "_performanceLogger": {
+      "_timespans": {
+        "network_XMLHttpRequest_https://api.estateiq.ng/api/v1/estate_adverts/advert/": {
+          "startTime": 1626107.434912,
+          "endTime": 1628782.886012,
+          "totalTime": 2675.4510999999475
+        },
+        "network_XMLHttpRequest_https://api.estateiq.ng/api/v1/estate_users/estate_user_detail/?estate_id=EIQ72424": {
+          "startTime": 1626118.072012,
+          "endTime": 1628839.132412,
+          "totalTime": 2721.060400000075
+        },
+        "network_XMLHttpRequest_https://api.estateiq.ng/api/v1/estate_payment/setwallet/?estate_id=EIQ72424": {
+          "startTime": 1626121.392012,
+          "endTime": 1628766.094412,
+          "totalTime": 2644.7023999998346
+        },
+        "network_XMLHttpRequest_https://api.estateiq.ng/api/v1/estate_adverts/track/": {
+          "startTime": 1633208.499212,
+          "endTime": 1634499.842312,
+          "totalTime": 1291.34309999994
+        },
+        "network_XMLHttpRequest_https://api.estateiq.ng/api/v1/estate_payment/purchase/?estate_id=EIQ72424": {
+          "startTime": 1649774.056812,
+          "endTime": 1650922.565312,
+          "totalTime": 1148.5084999999963
+        },
+        "network_XMLHttpRequest_https://api.estateiq.ng/api/v1/estate_payment/virtualaccountstatus/?estate_id=EIQ72424": {
+          "startTime": 1906400.815712,
+          "endTime": 2183312.418412,
+          "totalTime": 276911.60269999993
+        }
+      },
+      "_extras": {},
+      "_points": {
+        "initializeCore_start": 1619861.327312,
+        "initializeCore_end": 1620579.580812
+      },
+      "_pointExtras": {},
+      "_closed": false
+    },
+    "responseHeaders": {
+      "Content-Length": "24",
+      "X-Content-Type-Options": "nosniff",
+      "Vary": "Accept, Origin",
+      "Date": "Thu, 23 Apr 2026 15:51:33 GMT",
+      "Cross-Origin-Opener-Policy": "same-origin",
+      "Server": "nginx/1.22.0 (Ubuntu)",
+      "Strict-Transport-Security": "max-age=3600; includeSubDomains; preload",
+      "Allow": "GET, HEAD, OPTIONS",
+      "Connection": "keep-alive",
+      "Referrer-Policy": "same-origin",
+      "Content-Type": "application/json",
+      "X-Frame-Options": "DENY"
+    },
+    "_requestId": null,
+    "_headers": {
+      "accept": "application/json, text/plain, */*",
+      "estateiq-sk-header": "22-wchvhshcjbdnvjb-2244-vsjdjbd",
+      "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc3ODIyNDU3LCJpYXQiOjE3NzY5NTg0NTcsImp0aSI6IjI0MTJiZjU3MTBkNTQ0OGU5NTBkOWE2YWI4MTQ5MDhlIiwidXNlcl9pZCI6IjM3OGY5MDVjLWI1M2EtNDE2Mi05MTRlLTA0MWFhNWUyNWMyMSJ9.R1_tySQrHMgtQeVuFbEa_RffXF3deiLV7gA7itCYYsY"
+    },
+    "_responseType": "",
+    "_sent": true,
+    "_lowerCaseResponseHeaders": {
+      "content-length": "24",
+      "x-content-type-options": "nosniff",
+      "vary": "Accept, Origin",
+      "date": "Thu, 23 Apr 2026 15:51:33 GMT",
+      "cross-origin-opener-policy": "same-origin",
+      "server": "nginx/1.22.0 (Ubuntu)",
+      "strict-transport-security": "max-age=3600; includeSubDomains; preload",
+      "allow": "GET, HEAD, OPTIONS",
+      "connection": "keep-alive",
+      "referrer-policy": "same-origin",
+      "content-type": "application/json",
+      "x-frame-options": "DENY"
+    },
+    "_subscriptions": [],
+    "responseURL": "https://api.estateiq.ng/api/v1/estate_payment/virtualaccountstatus/?estate_id=EIQ72424"
+  }
+}
