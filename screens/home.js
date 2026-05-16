@@ -219,6 +219,58 @@ const Home = (props) => {
             >
               <TouchableOpacity
                 onPress={() =>
+                  props.navigation.navigate("AccessCode")
+                }
+              >
+                <Image
+                  style={{ width: "100%", height: "100%" }}
+                  resizeMode="contain"
+                  source={AppIcons.box7}
+                  fit="contain"
+                />
+              </TouchableOpacity>
+            </View>
+
+            <View
+              style={{
+                width: "45%",
+                height: height / 7.5,
+              }}
+            >
+              <TouchableOpacity
+                onPress={() =>
+                  props.navigation.navigate("BusinessGenerateCode")
+                }
+              >
+                <Image
+                  style={{ width: "100%", height: "100%" }}
+                  resizeMode="contain"
+                  source={AppIcons.box8}
+                  fit="contain"
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View
+            style={{
+              marginTop: moderateScale(50),
+              width: "100%",
+              justifyContent: "space-between",
+              alignItems: "center",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              rowGap: moderateScale(10),
+            }}
+          >
+            <View
+              style={{
+                width: "45%",
+                height: height / 7.5,
+              }}
+            >
+              <TouchableOpacity
+                onPress={() =>
                   props.navigation.navigate("BusinessGenerateCode")
                 }
               >
@@ -231,6 +283,7 @@ const Home = (props) => {
               </TouchableOpacity>
             </View>
           </View>
+
         </ScrollView>
 
         <Modal animationType="slide" visible={modalVisible} transparent>

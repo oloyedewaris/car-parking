@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Dimensions,
+  Modal,
 } from "react-native";
 import { Container, TouchWrap } from "../../helper/index";
 
@@ -20,50 +21,60 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import InputCardPassword from "../../component/inputCardPassword";
 import { ToastLong } from "../../helper/toast";
+import { moderateScale } from "react-native-size-matters";
+import { registerApi } from "../../api/auth";
+import { useMutation } from "react-query";
+import { useState } from "react";
 
 const Signup = (props) => {
   const keyboardVerticalOffset = Platform.OS === "ios" ? -40 : -40;
   const { width, height } = Dimensions.get("window");
+  const [modalVisible, setModalVisible] = useState(false);
 
   const Schema = Yup.object().shape({
     first_name: Yup.string().required("Required"),
     last_name: Yup.string().required("Required"),
     email: Yup.string().email("Invalid email").required("Required"),
-    mobile: Yup.string()
+    staff_id: Yup.string()
+      .min(3, "Staff id should be minimum of 3 character")
+      .required("Required"),
+    phone: Yup.string()
       .min(10, "Phone should be 10 digits")
       .required("Required"),
-    password1: Yup.string()
+    password: Yup.string()
       .required("Required")
       .min(6, "Password must be a minimum of six characters"),
-    password2: Yup.string()
+    confirm_password: Yup.string()
       .required("Required")
       .min(6, "Password must be a minimum of six characters"),
   });
+
+  const registrationMutation = useMutation(registerApi, {
+    onSuccess: (res) => {
+      setModalVisible(true);
+    },
+    onError: (err) => {
+      Alert.alert("An error occurred", JSON.stringify(err?.response?.data));
+    },
+  });
+
 
   const formik = useFormik({
     initialValues: {
       first_name: "",
       last_name: "",
       email: "",
-      mobile: "",
-      password1: "",
-      password2: "",
-
-      estate_choice: "",
-      estate_id: "",
-      estate_name: "",
-      estate_address: "",
-      estate_country: "",
-      estate_lga: "",
-      estate_state: "",
+      staff_id: "",
+      phone: "",
+      password: "",
+      confirm_password: "",
     },
     validationSchema: Schema,
     onSubmit: (values) => {
-      if (values.password1 !== values.password2)
+      if (values.password !== values.confirm_password)
         return ToastLong("Password and confirm password doesn't match");
-      props.navigation.navigate("signup2", {
-        values: { ...values, email: values.email?.trim()?.toLowerCase() },
-      });
+      registrationMutation.mutate(values);
+
     },
   });
 
@@ -73,7 +84,7 @@ const Signup = (props) => {
         behavior="height"
         keyboardVerticalOffset={keyboardVerticalOffset}
       >
-        <ScrollView contentContainerStyle={{ paddingBottom: 150 }}>
+        <ScrollView contentContainerStyle={{ paddingBottom: 0, paddingBottom: moderateScale(300) }}>
           <View
             style={{
               height: height / 2,
@@ -111,7 +122,7 @@ const Signup = (props) => {
           </View>
           <View
             style={{
-              height: 700,
+              height: '100%',
               width: "95%",
               backgroundColor: "white",
               marginTop: -(height / 3.1),
@@ -168,17 +179,33 @@ const Signup = (props) => {
                 placeholder={"Enter your email address"}
               />
             </Container>
+
+            <Container marginTop={1} marginLeft={5}>
+              <InputCard
+                text={"Staff Id"}
+                error={
+                  formik.errors.staff_id && formik.touched.staff_id
+                    ? formik.errors.staff_id
+                    : ""
+                }
+                onChangeText={formik.handleChange("staff_id")}
+                onBlur={formik.handleBlur("staff_id")}
+                value={formik.values.staff_id}
+                placeholder={"Enter your staff ID"}
+              />
+            </Container>
+
             <Container marginTop={1} marginLeft={5}>
               <InputCard
                 text={"Phone Number"}
                 error={
-                  formik.errors.mobile && formik.touched.mobile
-                    ? formik.errors.mobile
+                  formik.errors.phone && formik.touched.phone
+                    ? formik.errors.phone
                     : ""
                 }
-                onChangeText={formik.handleChange("mobile")}
-                onBlur={formik.handleBlur("mobile")}
-                value={formik.values.mobile}
+                onChangeText={formik.handleChange("phone")}
+                onBlur={formik.handleBlur("phone")}
+                value={formik.values.phone}
                 placeholder={"Enter your phone number"}
                 keyboardType={"numeric"}
               />
@@ -187,30 +214,31 @@ const Signup = (props) => {
             <InputCardPassword
               text={"Password"}
               error={
-                formik.errors.password1 && formik.touched.password1
-                  ? formik.errors.password1
+                formik.errors.password && formik.touched.password
+                  ? formik.errors.password
                   : ""
               }
-              onChangeText={formik.handleChange("password1")}
-              onBlur={formik.handleBlur("password1")}
-              value={formik.values.password1}
+              onChangeText={formik.handleChange("password")}
+              onBlur={formik.handleBlur("password")}
+              value={formik.values.password}
               placeholder={"Enter your password"}
             />
             <InputCardPassword
               text={"Confirm Password"}
               error={
-                formik.errors.password2 && formik.touched.password2
-                  ? formik.errors.password2
+                formik.errors.confirm_password && formik.touched.confirm_password
+                  ? formik.errors.confirm_password
                   : ""
               }
-              onChangeText={formik.handleChange("password2")}
-              onBlur={formik.handleBlur("password2")}
-              value={formik.values.password2}
+              onChangeText={formik.handleChange("confirm_password")}
+              onBlur={formik.handleBlur("confirm_password")}
+              value={formik.values.confirm_password}
               placeholder={"Confirm your password"}
             />
 
             <Container marginTop={5} horizontalAlignment="center">
               <LongButton
+                isLoading={registrationMutation.isLoading}
                 onPress={formik.handleSubmit}
                 text={"Next"}
                 borderWidth={3}
@@ -240,6 +268,79 @@ const Signup = (props) => {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
+
+      <Modal
+        backgroundColor={"rgba(0, 0, 0, 0.7)"}
+        animationType="slide"
+        visible={modalVisible}
+        transparent
+      >
+        <Container
+          flex={1}
+          verticalAlignment="center"
+          horizontalAlignment="center"
+          backgroundColor={"white"}
+        >
+          <Container>
+            <Text
+              style={{
+                color: Colors.appPrimaryBlue,
+                fontSize: 25,
+                fontWeight: "bold",
+              }}
+            >
+              Congratulations!!!
+            </Text>
+          </Container>
+
+          <Container
+            marginTop={5}
+            width={90}
+            horizontalAlignment="center"
+            verticalAlignment="center"
+          >
+            <Text
+              style={{
+                color: "black",
+                fontSize: 16,
+                textAlign: "center",
+              }}
+            >
+              Your account registration was successful.
+            </Text>
+            {/* <Text
+                    style={{
+                      color: "black",
+                      fontSize: 16,
+                      textAlign: "center",
+                    }}
+                  >
+                    The verification email has been sent. Please note that it may take
+                    a few minutes due to the network of your service provider.
+                  </Text> */}
+          </Container>
+
+          <Container marginTop={5}>
+            <LongButton
+              text={"Login"}
+              onPress={() => {
+                setModalVisible(false);
+                props.navigation.navigate("login");
+              }}
+            />
+          </Container>
+          <Container
+            width={100}
+            height={20}
+            verticalAlignment="center"
+            horizontalAlignment="center"
+          >
+            <Container height={30} width={35} marginTop={40}>
+              {/* <ImageWrap source={AppIcons.estate} fit="contain" /> */}
+            </Container>
+          </Container>
+        </Container>
+      </Modal>
       <StatusBar style="auto" />
     </Container>
   );

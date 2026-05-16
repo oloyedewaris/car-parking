@@ -244,32 +244,6 @@ const Profilee = (props) => {
         </Container>
         <Container marginTop={3}>
           <Setting
-            icon={
-              <SimpleLineIcons
-                name="bell"
-                size={22}
-                color={Colors.appPrimaryBlue}
-              />
-            }
-            text={"Notifications"}
-            onPress={() => props.navigation.navigate("notifications")}
-          />
-        </Container>
-        <Container marginTop={3}>
-          <Setting
-            icon={
-              <Ionicons
-                name="wallet-outline"
-                size={22}
-                color={Colors.appPrimaryBlue}
-              />
-            }
-            text={"Transactions"}
-          />
-        </Container>
-        {/* Linking.openURL('https://estateiq.ng/terms-and-conditions') */}
-        <Container marginTop={3}>
-          <Setting
             onPress={() =>
               Linking.openURL("https://estateiq.ng/terms-and-conditions")
             }

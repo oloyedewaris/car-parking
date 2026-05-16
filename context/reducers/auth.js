@@ -6,7 +6,6 @@ import {
   INITIALIZE_APP,
   SET_ESTATE,
 } from '../actions/types';
-import { getUserEstates } from '../../api/estates';
 
 const auth = (state, action) => {
   let app;
@@ -14,8 +13,9 @@ const auth = (state, action) => {
     case LOGIN_USER:
       app = {
         ...state,
-        accessToken: action?.payload?.access_token,
-        user: action?.payload?.user
+        accessToken: action?.payload?.access,
+        user: action?.payload?.user,
+        isAuthenticated: true,
       }
       AsyncStorage.setItem('app', JSON.stringify(app))
       return app
@@ -48,7 +48,6 @@ const auth = (state, action) => {
       app = {
         ...state,
         estateData: action.payload,
-        isAuthenticated: true,
       }
       AsyncStorage.setItem('app', JSON.stringify(app))
       return app

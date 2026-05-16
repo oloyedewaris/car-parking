@@ -39,9 +39,8 @@ const Login = (props) => {
 
   const loginMutation = useMutation(loginApi, {
     onSuccess: (res) => {
-      if (res.data?.user && res.data?.access_token) {
+      if (res.data?.user && res.data?.access) {
         loginUser(res.data)(authDispatch);
-        props.navigation.navigate("setEstate");
       }
       // else
       //   ToastLong('An error occurred try again')

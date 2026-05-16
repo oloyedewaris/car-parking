@@ -23,11 +23,11 @@ const AuthContainer = () => {
         component={Login}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="intro1"
         component={Intro1}
         options={{ headerShown: false }}
-      />
+      /> */}
       <Stack.Screen
         name="signup"
         component={Signup}

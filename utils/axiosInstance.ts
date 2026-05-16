@@ -4,7 +4,7 @@ import { navigate } from "../navigations/RootNavigation";
 import { ToastLong } from "../helper/toast";
 import axiosRetry from "axios-retry";
 
-export const BACKEND_URL: string = "https://api.estateiq.ng/api/v1";
+export const BACKEND_URL: string = "https://car-parking-m0e4.onrender.com/api";
 // const BACKEND_URL: string = "http://10.0.2.2:8000/api/v1";
 
 const axiosInstance = axios.create({

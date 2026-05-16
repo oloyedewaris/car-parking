@@ -54,6 +54,7 @@ import CableTV from "../screens/cableTV";
 import Electricity from "../screens/electricity";
 import VerifyIdentity from "../screens/verifyIdentity";
 import VerifyEmail from "../screens/verifyEmail";
+import RegisterVehicle from "../screens/RegisterVehicle";
 
 const HomeContainer = () => {
   const Stack = createStackNavigator<any>();
@@ -108,6 +109,11 @@ const HomeContainer = () => {
         name="PrivateGenerateCode"
         component={PrivateGenerateCode}
       />
+      <Stack.Screen
+        name="RegisterVehicle"
+        component={RegisterVehicle}
+      />
+      
       <Stack.Screen
         name="WaybillGenerateCode"
         component={WaybillGenerateCode}

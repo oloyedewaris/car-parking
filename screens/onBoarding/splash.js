@@ -9,7 +9,7 @@ const Splash = (props) => {
 
   useFocusEffect(
     useCallback(() => {
-      const timeoutID = setTimeout(() => props.navigation.navigate("intro1"), 1000);
+      const timeoutID = setTimeout(() => props.navigation.navigate("login"), 1000);
 
       return () => {
         clearTimeout(timeoutID);

@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "EstateIQ Resident",
-    "slug": "EstateIQ",
-    "version": "5.2.2",
+    "name": "CarParking User",
+    "slug": "CarParkingUser",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
@@ -17,8 +17,8 @@
     "ios": {
       "icon": "./assets/icon.png",
       "supportsTablet": true,
-      "bundleIdentifier": "com.estateiq.estateiq",
-      "buildNumber": "31",
+      "bundleIdentifier": "com.carparking.user",
+      "buildNumber": "1",
       "infoPlist": {
         "NSCameraUsageDescription": "EstateIQ needs to access your camera to set image as profile avatar",
         "NSPhotoLibraryUsageDescription": "EstateIQ needs to access your photo library to set image as profile avatar",
@@ -30,8 +30,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.estateiq.estateiq",
-      "versionCode": 62,
+      "package": "com.carparking.user",
+      "versionCode": 1,
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ]
@@ -41,14 +41,13 @@
     },
     "extra": {
       "eas": {
-        "projectId": "8729b087-9078-42fb-a438-808d36e65dbc"
+        "projectId": "9b8044aa-b66f-475d-b279-63f201642d82"
       }
     },
     "runtimeVersion": {
       "policy": "appVersion"
     },
     "updates": {
-      "url": "https://u.expo.dev/8729b087-9078-42fb-a438-808d36e65dbc",
       "enabled": true,
       "checkAutomatically": "ON_LOAD",
       "fallbackToCacheTimeout": 0,
@@ -66,7 +65,8 @@
         "expo-build-properties",
         {
           "android": {
-            "enableProguardInReleaseBuilds": true
+            "enableProguardInReleaseBuilds": true,
+            "enableMinifyInReleaseBuilds": true
           }
         }
       ],

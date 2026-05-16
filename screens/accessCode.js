@@ -14,31 +14,27 @@ import { Colors } from "../helper/constants";
 
 const navItems = [
   {
-    path: "PrivateGenerateCode",
-    icon: AppIcons.private,
-    title: "Private",
-    desc: "Generate access code for scheduled visits to your home",
+    path: "RegisterVehicle",
+    image: <AntDesign
+      name="plus"
+      size={50}
+      style={{ marginTop: 10 }}
+      color="black"
+    />,
+    title: "Register Vehicle",
+    desc: "Register your vehicle by entering the vehicle information",
     color: Colors.appPrimaryBlue,
   },
   {
-    path: "BusinessGenerateCode",
-    icon: AppIcons.exit,
-    title: "Business",
-    desc: "Generate exit passcode for unplanned business visits to shops and offices within the estate",
-    color: "#F5CD16",
-  },
-  {
-    path: "WaybillGenerateCode",
-    icon: AppIcons.waybill,
-    title: "Waybill",
-    desc: "Generate a waybill number for goods that require authorization in/out of the estate.",
-    color: Colors.appPrimaryBlue,
-  },
-  {
-    path: "EventGenerateCode",
-    isEvent: true,
-    title: "Event",
-    desc: "Generate passcode for events you want to host within the estate",
+    path: "",
+    image: <AntDesign
+      name="car"
+      size={50}
+      style={{ marginTop: 10 }}
+      color="black"
+    />,
+    title: "View Vehicles",
+    desc: "View all registered vehicles here",
     color: "#F5CD16",
   },
 ];
@@ -73,10 +69,10 @@ const AccessCode = (props) => {
           color: "black",
         }}
       >
-        Generate Access Code
+       Vehicle Actions
       </Text>
       <Text style={{ marginTop: 4, color: "black" }}>
-        Kindly select the type of access code you want to generate
+        Kindly select the action you want to perform
       </Text>
       <ScrollView
         contentContainerStyle={{ paddingBottom: 100, paddingHorizontal: 5 }}
@@ -84,7 +80,7 @@ const AccessCode = (props) => {
         {navItems.map((item) => (
           <TouchableOpacity
             key={item.path}
-            onPress={() => props.navigation.navigate(item.path)}
+            onPress={() => item.path ? props.navigation.navigate(item.path) : null}
           >
             <View
               style={{
@@ -97,14 +93,7 @@ const AccessCode = (props) => {
                 borderColor: item.color,
               }}
             >
-              {item.isEvent ? (
-                <MaterialIcons
-                  name="groups"
-                  size={50}
-                  style={{ marginTop: 10 }}
-                  color="black"
-                />
-              ) : (
+              {item.image ? item.image : (
                 <Image
                   style={{ height: 50, width: 50 }}
                   resizeMode="contain"

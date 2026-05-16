@@ -95,5 +95,7 @@ export const AppIcons = {
   box4: require("../assets/Images/box4.png"),
   box5: require("../assets/Images/box5.png"),
   box6: require("../assets/Images/box6.png"),
+  box7: require("../assets/Images/box7.png"),
+  box8: require("../assets/Images/box8.png"),
 };
 AppIcons;

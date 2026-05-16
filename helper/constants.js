@@ -5,7 +5,7 @@ import { Dimensions, PixelRatio } from "react-native";
 
 export const Colors = {
   appWhite: "#FFFFFF",
-  appPrimaryBlue: "#FF0800",
+  appPrimaryBlue: "#108A00",
   appBlack: "#000000",
   appTextDeepBlue: "#1D3354",
   appTextBlue: "#2286FE",
