@@ -21,6 +21,7 @@ import { moderateScale } from "react-native-size-matters";
 import { registerVehicleApi } from "../api/vehicle";
 import { useMutation } from "react-query";
 import { useState } from "react";
+import { handleBackendError } from "../utils/errors";
 
 const RegisterVehicle = (props) => {
   const keyboardVerticalOffset = Platform.OS === "ios" ? -40 : -40;
@@ -36,12 +37,10 @@ const RegisterVehicle = (props) => {
 
   const registerVehicleMutation = useMutation(registerVehicleApi, {
     onSuccess: (res) => {
-      console.log("res", res);
       setModalVisible(true);
     },
     onError: (err) => {
-      console.log("err", err);
-      Alert.alert("An error occurred", JSON.stringify(err?.response?.data));
+      Alert.alert("An error occurred", handleBackendError(err));
     },
   });
 
@@ -54,7 +53,6 @@ const RegisterVehicle = (props) => {
     },
     validationSchema: Schema,
     onSubmit: (values) => {
-      console.log("values", values);
       registerVehicleMutation.mutate(values);
     },
   });

@@ -12,31 +12,40 @@ import { Container, TouchWrap } from "../helper/index";
 import { Colors } from "../helper/constants";
 import { useFocusEffect } from "@react-navigation/native";
 import { useMutation, useQuery } from "react-query";
-import { getAccessLogs, revokeAccessCodeApi } from "../api/accessCode";
+import { revokeAccessCodeApi } from "../api/accessCode";
 import convertDate, { formattedDateToUse } from "../utils/formatDate";
 import { useCallback, useState } from "react";
 import { Dropdown } from "react-native-element-dropdown";
 import { AntDesign } from "@expo/vector-icons";
 import LongButton from "../component/longbutton";
-import { getUserDetails } from "../api/user";
+import {
+  approveUserApi,
+  getAllUsers,
+  getUserDetails,
+  reactivateUserApi,
+  rejectUserApi,
+  suspendUserApi,
+} from "../api/user";
 import InputCard from "../component/inputCard";
+import SelectDropdown from "../component/selectDropdown";
+import { handleBackendError } from "../utils/errors";
 
-const CodeHistory = () => {
+const UserManagement = () => {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
-  const [reason, setReason] = useState("");
+  const [level, setLevel] = useState("");
   const [logToView, setLogToView] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [revokeModalVisible, setRevokeModalVisible] = useState(false);
-  const accessQuery = useQuery(["getAccessLogs", search, status], () =>
-    getAccessLogs(search, status)
+  const usersQuery = useQuery(["getAccessLogs", search, status], () =>
+    getAllUsers(search, status)
   );
-  const logsData = accessQuery?.data?.data?.results;
+  const usersData = usersQuery?.data?.data?.results;
 
-  const issuedByProfile = useQuery(
-    ["getUserDetails", logToView?.issued_by],
-    () => getUserDetails(logToView?.issued_by),
-    { enabled: !!logToView?.issued_by }
+  const approvedByProfile = useQuery(
+    ["getUserDetails", logToView?.approved_by],
+    () => getUserDetails(logToView?.approved_by),
+    { enabled: !!logToView?.approved_by }
   )?.data?.data;
 
   const revokedByProfile = useQuery(
@@ -47,23 +56,64 @@ const CodeHistory = () => {
 
   useFocusEffect(
     useCallback(() => {
-      accessQuery.refetch();
+      usersQuery.refetch();
     }, [])
   );
 
-  const revokeMutation = useMutation(
-    (formData) => revokeAccessCodeApi(formData),
-    {
-      onSuccess: async (res) => {
-        await accessQuery.refetch();
-        Alert.alert("Successful", "Access code revoked");
-        setRevokeModalVisible(false);
-      },
-      onError: (err) => {
-        Alert.alert("An error occurred", err?.response?.data);
-      },
-    }
+  //   approveUserApi
+  // reactivateUserApi
+  // rejectUserApi
+  // suspendUserApi
+
+  const configObj = {
+    onSuccess: async (res) => {
+      await usersQuery.refetch();
+      setLevel("");
+      Alert.alert("Successful", "User status updated");
+      setRevokeModalVisible(false);
+    },
+    onError: (err) => {
+      Alert.alert("An error occurred", handleBackendError(err));
+    },
+  };
+
+  const approveMutation = useMutation(
+    (formData) => approveUserApi(logToView?.id, formData),
+    configObj
   );
+
+  const reactivateMutation = useMutation(
+    (formData) => reactivateUserApi(logToView?.id, formData),
+    configObj
+  );
+
+  const rejectMutation = useMutation(
+    (formData) => rejectUserApi(logToView?.id, formData),
+    configObj
+  );
+
+  const suspendMutation = useMutation(
+    (formData) => suspendUserApi(logToView?.id, formData),
+    configObj
+  );
+
+  const handleStatusChange = (option) => {
+    if (option === "approve") {
+      approveMutation.mutate({ access_level: level });
+    } else if (option === "suspend") {
+      suspendMutation.mutate({ access_level: level });
+    } else if (option === "reactivate") {
+      reactivateMutation.mutate({ access_level: level });
+    } else if (option === "reject") {
+      rejectMutation.mutate({ access_level: level });
+    }
+  };
+
+  const isLoading =
+    approveMutation?.isLoading ||
+    suspendMutation?.isLoading ||
+    reactivateMutation?.isLoading ||
+    rejectMutation?.isLoading;
 
   return (
     <Container
@@ -74,7 +124,7 @@ const CodeHistory = () => {
     >
       <Container marginTop={7} marginLeft={5} width={90}>
         <Text style={{ fontWeight: "500", fontSize: 18, marginTop: 10 }}>
-          Access Log
+          Users Management
         </Text>
 
         <Text
@@ -85,8 +135,7 @@ const CodeHistory = () => {
             color: "#616161",
           }}
         >
-          Keep track of vehicle permissions granted to your facility and
-          resources
+          Manage users that have access to this platform
         </Text>
       </Container>
 
@@ -124,10 +173,10 @@ const CodeHistory = () => {
           placeholderStyle={{ opacity: 0.5 }}
           data={[
             { label: "Filter by", value: "" },
+            { label: "pending", value: "pending" },
             { label: "active", value: "active" },
-            { label: "revoked", value: "revoked" },
-            { label: "expired", value: "expired" },
-            { label: "used", value: "used" },
+            { label: "suspended", value: "suspended" },
+            { label: "rejected", value: "rejected" },
           ]}
           maxHeight={500}
           labelField="label"
@@ -157,7 +206,7 @@ const CodeHistory = () => {
             color: "white",
           }}
         >
-          Date
+          Name
         </Text>
 
         <Text
@@ -169,7 +218,7 @@ const CodeHistory = () => {
             color: "white",
           }}
         >
-          Vehicle plate
+          Email
         </Text>
 
         <Text
@@ -194,7 +243,7 @@ const CodeHistory = () => {
       </Container>
 
       <ScrollView showsVerticalScrollIndicator={false}>
-        {accessQuery?.isLoading ? (
+        {usersQuery?.isLoading ? (
           <View
             style={{
               backgroundColor: "#eee",
@@ -209,7 +258,7 @@ const CodeHistory = () => {
           </View>
         ) : (
           <>
-            {logsData?.map((log) => (
+            {usersData?.map((log) => (
               <Container
                 key={log.id}
                 verticalAlignment="center"
@@ -228,7 +277,7 @@ const CodeHistory = () => {
                     fontSize: 13,
                   }}
                 >
-                  {convertDate(new Date(log.created_at))}
+                  {log?.first_name} {log?.last_name}
                 </Text>
                 <Text
                   style={{
@@ -238,7 +287,7 @@ const CodeHistory = () => {
                     fontSize: 13,
                   }}
                 >
-                  {log?.vehicle_plate}
+                  {log?.email}
                 </Text>
 
                 <TouchableOpacity
@@ -247,9 +296,6 @@ const CodeHistory = () => {
                     textAlign: "left",
                     width: "25%",
                   }}
-                  disabled={Boolean(
-                    revokeMutation.isLoading || log?.status === "revoked"
-                  )}
                   onPress={() => {
                     setLogToView(log);
                     setRevokeModalVisible(true);
@@ -260,13 +306,10 @@ const CodeHistory = () => {
                       textAlign: "left",
                       fontWeight: "500",
                       fontSize: 13,
-                      color:
-                        log?.status === "revoked"
-                          ? "rgba(225, 0, 0, 0.3)"
-                          : "red",
+                      textTransform: "capitalize",
                     }}
                   >
-                    {log?.status === "revoked" ? "Revoked" : "Revoke"}
+                    {log.status}
                   </Text>
                 </TouchableOpacity>
 
@@ -299,7 +342,7 @@ const CodeHistory = () => {
         >
           <Container
             backgroundColor={"white"}
-            height={50}
+            height={35}
             width={90}
             borderRadius={7}
             horizontalAlignment="center"
@@ -322,52 +365,81 @@ const CodeHistory = () => {
                   fontSize: 20,
                 }}
               >
-                Revoke
-              </Text>
-            </Container>
-            <Container marginTop={5} width={80}>
-              <Text
-                style={{
-                  textAlign: "center",
-                  fontSize: 15,
-                  color: Colors.appTextGrey,
-                }}
-              >
-                Are you sure you want to revoke the permission granted to this
-                access code?
+                Take action
               </Text>
             </Container>
 
-            <Container>
-              <InputCard
-                text={""}
-                onChangeText={(text) => setReason(text)}
-                value={reason}
-                placeholder={"Enter reason for revoke"}
-              />
-            </Container>
+            {logToView?.status === "pending" && (
+              <Container marginTop={1} marginLeft={5}>
+                <SelectDropdown
+                  data={[
+                    { label: "LEVEL_1, Executive Staff", value: "level_1" },
+                    { label: "LEVEL_2, Permanent Staff", value: "level_2" },
+                    {
+                      label: "LEVEL_3, Contractor / Temporary Staff",
+                      value: "level_3",
+                    },
+                    {
+                      label: "LEVEL_4, Visitor / Short-Term",
+                      value: "level_4",
+                    },
+                  ]}
+                  onChangeText={(item) => {
+                    setLevel(item?.value);
+                  }}
+                  value={level}
+                  text={"Staff's access level"}
+                  placeholder={"Select access level"}
+                />
+              </Container>
+            )}
 
-            <Container marginTop={3}>
-              <LongButton
-                np={80}
-                isLoading={revokeMutation.isLoading}
-                disabled={!reason}
-                onPress={() => revokeMutation.mutate(logToView?.id)}
-                text={"Yes, Revoke"}
-              />
-            </Container>
-            <TouchWrap width={80} onPress={() => setRevokeModalVisible(false)}>
-              <Text
-                style={{
-                  textAlign: "center",
-                  paddingTop: "10%",
-                  color: Colors.appPrimaryBlue,
-                  fontSize: 16,
-                }}
-              >
-                No, go back
-              </Text>
-            </TouchWrap>
+            {logToView?.status === "pending" && (
+              <Container marginTop={2}>
+                <LongButton
+                  np={80}
+                  isLoading={isLoading}
+                  // disabled={!level}
+                  onPress={() => handleStatusChange("approve")}
+                  text={`Approve`}
+                />
+              </Container>
+            )}
+
+            {logToView?.status === "pending" && (
+              <Container marginTop={1}>
+                <LongButton
+                  np={80}
+                  isLoading={isLoading}
+                  // disabled={!level}
+                  onPress={() => handleStatusChange("reject")}
+                  text={`Reject`}
+                />
+              </Container>
+            )}
+
+            {logToView?.status === "active" && (
+              <Container marginTop={1}>
+                <LongButton
+                  np={80}
+                  isLoading={isLoading}
+                  onPress={() => handleStatusChange("suspend")}
+                  text={`Suspend`}
+                />
+              </Container>
+            )}
+
+            {(logToView?.status === "rejected" ||
+              logToView?.status === "suspended") && (
+              <Container marginTop={1}>
+                <LongButton
+                  np={80}
+                  isLoading={isLoading}
+                  onPress={() => handleStatusChange("reactivate")}
+                  text={`Reactivate`}
+                />
+              </Container>
+            )}
           </Container>
         </Container>
       </Modal>
@@ -416,21 +488,18 @@ const CodeHistory = () => {
                     color: "#000",
                     fontSize: 16,
                     color:
-                      logToView?.access === "REVOKE"
+                      logToView?.status === "suspended" ||
+                      logToView?.status === "rejected"
                         ? "red"
-                        : logToView?.access === "GRANT"
+                        : logToView?.status === "active"
                         ? "green"
                         : "grey",
                   }}
                 >
-                  {logToView?.access === "REVOKE"
-                    ? "Denied"
-                    : logToView?.access === "GRANT"
-                    ? "Granted"
-                    : "Not used"}
+                  {logToView?.status}
                 </Text>
               </Container>
-              {Boolean(logToView?.code) && (
+              {Boolean(logToView?.first_name) && (
                 <Container
                   width={75}
                   height={7}
@@ -445,7 +514,7 @@ const CodeHistory = () => {
                       fontSize: 16,
                     }}
                   >
-                    Access Code:
+                    First Name:
                   </Text>
                   <Text
                     style={{
@@ -455,12 +524,12 @@ const CodeHistory = () => {
                       maxWidth: "60%",
                     }}
                   >
-                    {logToView?.code}
+                    {logToView?.first_name}
                   </Text>
                 </Container>
               )}
 
-              {Boolean(logToView?.code_type) && (
+              {Boolean(logToView?.last_name) && (
                 <Container
                   width={75}
                   height={7}
@@ -475,7 +544,7 @@ const CodeHistory = () => {
                       fontSize: 16,
                     }}
                   >
-                    Code Type:
+                    Last Name:
                   </Text>
                   <Text
                     style={{
@@ -484,12 +553,12 @@ const CodeHistory = () => {
                       fontSize: 16,
                     }}
                   >
-                    {logToView?.code_type?.replace("_", " ")}
+                    {logToView?.last_name}
                   </Text>
                 </Container>
               )}
 
-              {Boolean(logToView?.used_count) && (
+              {Boolean(logToView?.email) && (
                 <Container
                   width={75}
                   height={7}
@@ -504,37 +573,7 @@ const CodeHistory = () => {
                       fontSize: 16,
                     }}
                   >
-                    Used Count:
-                  </Text>
-                  <Text
-                    style={{
-                      fontWeight: "500",
-                      color: "#000",
-                      fontSize: 16,
-                      maxWidth: "60%",
-                    }}
-                  >
-                    {logToView?.used_count}
-                  </Text>
-                </Container>
-              )}
-
-              {Boolean(logToView?.revoke_reason) && (
-                <Container
-                  width={75}
-                  height={7}
-                  verticalAlignment="center"
-                  horizontalAlignment="space-between"
-                  direction="row"
-                >
-                  <Text
-                    style={{
-                      fontWeight: "500",
-                      color: "#616161",
-                      fontSize: 16,
-                    }}
-                  >
-                    Revoke Reason:
+                    Email:
                   </Text>
                   <Text
                     style={{
@@ -544,12 +583,12 @@ const CodeHistory = () => {
                       maxWidth: "60%",
                     }}
                   >
-                    {logToView?.revoke_reason}
+                    {logToView?.email}
                   </Text>
                 </Container>
               )}
 
-              {Boolean(logToView?.notes) && (
+              {Boolean(logToView?.role) && (
                 <Container
                   width={75}
                   height={7}
@@ -564,7 +603,7 @@ const CodeHistory = () => {
                       fontSize: 16,
                     }}
                   >
-                    Notes:
+                    Role:
                   </Text>
                   <Text
                     style={{
@@ -574,12 +613,12 @@ const CodeHistory = () => {
                       maxWidth: "60%",
                     }}
                   >
-                    {logToView?.notes}
+                    {logToView?.role}
                   </Text>
                 </Container>
               )}
 
-              {Boolean(issuedByProfile) && (
+              {Boolean(logToView?.access_level) && (
                 <Container
                   width={75}
                   height={7}
@@ -594,7 +633,7 @@ const CodeHistory = () => {
                       fontSize: 16,
                     }}
                   >
-                    Issue by:
+                    Access Level:
                   </Text>
                   <Text
                     style={{
@@ -604,12 +643,12 @@ const CodeHistory = () => {
                       maxWidth: "60%",
                     }}
                   >
-                    {issuedByProfile?.first_name} {issuedByProfile?.last_name}
+                    {logToView?.access_level}
                   </Text>
                 </Container>
               )}
 
-              {Boolean(logToView?.issued_at) && (
+              {Boolean(approvedByProfile) && (
                 <Container
                   width={75}
                   height={7}
@@ -624,7 +663,7 @@ const CodeHistory = () => {
                       fontSize: 16,
                     }}
                   >
-                    Issued At:
+                    Approved by:
                   </Text>
                   <Text
                     style={{
@@ -634,12 +673,13 @@ const CodeHistory = () => {
                       maxWidth: "60%",
                     }}
                   >
-                    {formattedDateToUse(logToView?.issued_at)}
+                    {approvedByProfile?.first_name}{" "}
+                    {approvedByProfile?.last_name}
                   </Text>
                 </Container>
               )}
 
-              {Boolean(logToView?.expires_at) && (
+              {Boolean(logToView?.approved_at) && (
                 <Container
                   width={75}
                   height={7}
@@ -654,7 +694,7 @@ const CodeHistory = () => {
                       fontSize: 16,
                     }}
                   >
-                    Expires At:
+                    Approved at:
                   </Text>
                   <Text
                     style={{
@@ -664,12 +704,12 @@ const CodeHistory = () => {
                       maxWidth: "60%",
                     }}
                   >
-                    {formattedDateToUse(logToView?.expires_at)}
+                    {formattedDateToUse(logToView?.approved_at)}
                   </Text>
                 </Container>
               )}
 
-              {Boolean(revokedByProfile) && (
+              {Boolean(logToView?.date_joined) && (
                 <Container
                   width={75}
                   height={7}
@@ -684,7 +724,7 @@ const CodeHistory = () => {
                       fontSize: 16,
                     }}
                   >
-                    Revoked by:
+                    Date Joined:
                   </Text>
                   <Text
                     style={{
@@ -694,12 +734,12 @@ const CodeHistory = () => {
                       maxWidth: "60%",
                     }}
                   >
-                    {revokedByProfile?.first_name} {revokedByProfile?.last_name}
+                    {formattedDateToUse(logToView?.date_joined)}
                   </Text>
                 </Container>
               )}
 
-              {Boolean(logToView?.revoked_at) && (
+              {Boolean(logToView?.last_login) && (
                 <Container
                   width={75}
                   height={7}
@@ -714,7 +754,7 @@ const CodeHistory = () => {
                       fontSize: 16,
                     }}
                   >
-                    Revoked At:
+                    Last Login:
                   </Text>
                   <Text
                     style={{
@@ -724,12 +764,12 @@ const CodeHistory = () => {
                       maxWidth: "60%",
                     }}
                   >
-                    {formattedDateToUse(logToView?.revoked_at)}
+                    {formattedDateToUse(logToView?.last_login)}
                   </Text>
                 </Container>
               )}
 
-              {Boolean(logToView?.revoke_reason) && (
+              {Boolean(logToView?.rejection_reason) && (
                 <Container
                   width={75}
                   height={7}
@@ -754,7 +794,7 @@ const CodeHistory = () => {
                       maxWidth: "60%",
                     }}
                   >
-                    {logToView?.revoke_reason}
+                    {logToView?.rejection_reason}
                   </Text>
                 </Container>
               )}
@@ -765,4 +805,4 @@ const CodeHistory = () => {
     </Container>
   );
 };
-export default CodeHistory;
+export default UserManagement;

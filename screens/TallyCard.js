@@ -11,8 +11,6 @@ import {
   Alert,
 } from "react-native";
 import { Container } from "../helper/index";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
-
 import { AntDesign } from "@expo/vector-icons";
 import InputCard from "../component/inputCard";
 import { Colors } from "../helper/constants";
@@ -24,26 +22,23 @@ import { getVehiclesApi } from "../api/vehicle";
 import { useMutation, useQuery } from "react-query";
 import { useState } from "react";
 import SelectDropdown from "../component/selectDropdown";
-import { formatAMPM } from "../utils/formatDate";
-import { createAccessCodeApi } from "../api/accessCode";
+import { createTallyCardApi } from "../api/accessCode";
 import { handleBackendError } from "../utils/errors";
 
-const CreateAccessCode = (props) => {
+const CreateRallyCard = (props) => {
   const keyboardVerticalOffset = Platform.OS === "ios" ? -40 : -40;
   const { height } = Dimensions.get("window");
   const [modalVisible, setModalVisible] = useState(false);
-  const [showExpiry, setShowExpiry] = useState(false);
 
   const getVehicles = useQuery(["getVehicles"], () => getVehiclesApi("", ""));
   const vehicleData = getVehicles?.data?.data?.results;
 
   const Schema = Yup.object().shape({
     vehicle: Yup.string().required("Required"),
-    expires_at: Yup.string().required("Required"),
     notes: Yup.string().required("Required"),
   });
 
-  const createAccessCode = useMutation(createAccessCodeApi, {
+  const createTallyCard = useMutation(createTallyCardApi, {
     onSuccess: (res) => {
       setModalVisible(true);
     },
@@ -55,7 +50,6 @@ const CreateAccessCode = (props) => {
   const formik = useFormik({
     initialValues: {
       vehicle: "",
-      expires_at: "",
       notes: "",
     },
     validationSchema: Schema,
@@ -69,18 +63,9 @@ const CreateAccessCode = (props) => {
         vehicle: vehicle?.id,
       };
 
-      createAccessCode.mutate(dataToSubmit);
+      createTallyCard.mutate(dataToSubmit);
     },
   });
-
-  const formattedToDate = `${new Date(
-    formik.values?.expires_at
-  ).toLocaleDateString()} ${formatAMPM(new Date(formik.values?.expires_at))}`;
-
-  const onChange = (selectedDate) => {
-    formik.setFieldValue("expires_at", selectedDate);
-    setShowExpiry(false);
-  };
 
   return (
     <Container flex={1} backgroundColor={"#FFFFFF"}>
@@ -120,12 +105,12 @@ const CreateAccessCode = (props) => {
               <Text
                 style={{ fontSize: 18, fontWeight: "bold", color: "white" }}
               >
-                Create access code
+                Create tally card
               </Text>
             </Container>
             <Container marginLeft={4}>
               <Text style={{ color: "white", paddingLeft: 5 }}>
-                Create access code for a Vehicle
+                Create tally card for an emergency outgoing Vehicle
               </Text>
             </Container>
           </View>
@@ -182,42 +167,14 @@ const CreateAccessCode = (props) => {
               />
             </Container>
 
-            <Container marginTop={1} marginLeft={5}>
-              <TouchableOpacity onPress={() => setShowExpiry(true)}>
-                <View removeClippedSubviews={true} pointerEvents="none">
-                  <InputCard
-                    selectTextOnFocus={false}
-                    error={
-                      formik.errors.expires_at && formik.touched.expires_at
-                        ? formik.errors.expires_at
-                        : ""
-                    }
-                    onChangeText={formik.handleChange("expires_at")}
-                    onBlur={formik.handleBlur("expires_at")}
-                    value={formik.values?.expires_at && formattedToDate}
-                    text={"Expiry Date and Time"}
-                    placeholder={"DD/MM/YYYY:TT"}
-                  />
-                </View>
-              </TouchableOpacity>
-            </Container>
-
             <Container marginTop={5} horizontalAlignment="center">
               <LongButton
-                isLoading={createAccessCode.isLoading}
+                isLoading={createTallyCard.isLoading}
                 onPress={() => formik.handleSubmit()}
                 text={"Submit"}
                 borderWidth={3}
               />
             </Container>
-
-            <DateTimePickerModal
-              minimumDate={new Date()}
-              isVisible={showExpiry}
-              mode={"datetime"}
-              onCancel={() => setShowExpiry(false)}
-              onConfirm={onChange}
-            />
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -259,7 +216,7 @@ const CreateAccessCode = (props) => {
                 textAlign: "center",
               }}
             >
-              Tally card created
+              Access code created
             </Text>
           </Container>
 
@@ -268,7 +225,7 @@ const CreateAccessCode = (props) => {
               text={"Okay"}
               onPress={() => {
                 setModalVisible(false);
-                props.navigation.navigate("Dashboard");
+                props.navigation.navigate("AccessCode");
               }}
             />
           </Container>
@@ -278,4 +235,4 @@ const CreateAccessCode = (props) => {
     </Container>
   );
 };
-export default CreateAccessCode;
+export default CreateRallyCard;

@@ -19,6 +19,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import { deletevehicleApi, getVehiclesApi } from "../api/vehicle";
 import { AntDesign } from "@expo/vector-icons";
 import LongButton from "../component/longbutton";
+import { handleBackendError } from "../utils/errors";
 
 const RegieteredVehicles = (props) => {
   const [search, setSearch] = useState("");
@@ -48,8 +49,7 @@ const RegieteredVehicles = (props) => {
         setRevokeModalVisible(false);
       },
       onError: (err) => {
-        console.log("err", JSON.stringify(err?.response?.data));
-        // Alert.alert("An error occurred", err?.response?.data);
+        Alert.alert("An error occurred", handleBackendError(err));
       },
     }
   );

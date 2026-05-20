@@ -1,68 +1,26 @@
-import {
-  Text,
-  Image,
-  ScrollView,
-  Alert,
-  Linking,
-  Modal,
-  Dimensions,
-  View,
-} from "react-native";
-import { Container, ImageWrap, TouchWrap } from "../helper/index";
+import { Text, Image, ScrollView, Modal, Dimensions, View } from "react-native";
+import { Container, TouchWrap } from "../helper/index";
 import { AppIcons } from "../helper/images";
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { AntDesign, MaterialIcons } from "@expo/vector-icons";
+import React, { useContext, useRef, useState } from "react";
+import { AntDesign } from "@expo/vector-icons";
 import { Colors } from "../helper/constants";
 import { GlobalContext } from "../context/Provider";
 import { TouchableOpacity } from "react-native";
-import { useQuery } from "react-query";
-import { getUserEstateDetails } from "../api/user";
-import { fetchAdverts } from "../api/advert";
 import { logout } from "../context/actions/auth";
 import LongButton from "../component/longbutton";
 import { moderateScale } from "react-native-size-matters";
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-// import AdvertCarousel from "../component/carousel";
-import BottomSheet from "../component/bottomSheet";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { getUserWalletApi, getWalletApi } from "../api/wallet";
 import QRCode from "react-native-qrcode-svg";
 import onShare from "../utils/share";
 
 const Home = (props) => {
   const {
-    authState: { user, estateData },
+    authState: { user },
     authDispatch,
   } = useContext(GlobalContext);
   const [modalVisible, setModalVisible] = useState(false);
   const { height } = Dimensions.get("window");
   const qrRef = useRef(null);
-
-  const userDetailsQuery = useQuery(
-    ["getUserEstateDetails"],
-    getUserEstateDetails
-  );
-  const profileImage = userDetailsQuery?.data?.data?.profile_image;
-  const profile = userDetailsQuery?.data?.data;
-
-  const getWalletQuery = useQuery(["getWalletApi"], getWalletApi);
-  const wallet = getWalletQuery?.data?.data?.[0];
-
-  useEffect(() => {
-    if (
-      profile?.estate_user &&
-      profile?.estate_user?.user_type !== "RESIDENT"
-    ) {
-      setModalVisible(true);
-    } else {
-      setModalVisible(false);
-    }
-  }, [profile?.estate_user]);
-
-  const advertsQuery = useQuery(["fetchAdverts"], fetchAdverts);
-  const advert =
-    advertsQuery?.data?.data?.results?.length &&
-    advertsQuery?.data?.data?.results[0];
 
   const getTimeGreet = () => {
     var today = new Date();
@@ -106,7 +64,7 @@ const Home = (props) => {
                 gap: moderateScale(10),
               }}
             >
-              {profileImage ? (
+              {user.photo ? (
                 <Image
                   style={{
                     width: 50,
@@ -114,7 +72,7 @@ const Home = (props) => {
                     borderRadius: 100,
                     marginTop: 7,
                   }}
-                  source={{ uri: `https://api.estateiq.ng/${profileImage}` }}
+                  source={{ uri: `${user.photo}` }}
                   fit="contain"
                 />
               ) : (
@@ -184,23 +142,25 @@ const Home = (props) => {
               </TouchableOpacity>
             </View>
 
-            <View
-              style={{
-                width: "45%",
-                height: height / 7.5,
-              }}
-            >
-              <TouchableOpacity
-                onPress={() => props.navigation.navigate("AccessCode")}
+            {user?.role === "super_admin" && (
+              <View
+                style={{
+                  width: "45%",
+                  height: height / 7.5,
+                }}
               >
-                <Image
-                  style={{ width: "100%", height: "100%" }}
-                  resizeMode="contain"
-                  source={AppIcons.box8}
-                  fit="contain"
-                />
-              </TouchableOpacity>
-            </View>
+                <TouchableOpacity
+                  onPress={() => props.navigation.navigate("TallyCard")}
+                >
+                  <Image
+                    style={{ width: "100%", height: "100%" }}
+                    resizeMode="contain"
+                    source={AppIcons.box8}
+                    fit="contain"
+                  />
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
 
           <View
@@ -214,23 +174,25 @@ const Home = (props) => {
               rowGap: moderateScale(10),
             }}
           >
-            <View
-              style={{
-                width: "45%",
-                height: height / 7.5,
-              }}
-            >
-              <TouchableOpacity
-                onPress={() => props.navigation.navigate("AccessCode")}
+            {user?.role === "super_admin" && (
+              <View
+                style={{
+                  width: "45%",
+                  height: height / 7.5,
+                }}
               >
-                <Image
-                  style={{ width: "100%", height: "100%" }}
-                  resizeMode="contain"
-                  source={AppIcons.box1}
-                  fit="contain"
-                />
-              </TouchableOpacity>
-            </View>
+                <TouchableOpacity
+                  onPress={() => props.navigation.navigate("AccessCode")}
+                >
+                  <Image
+                    style={{ width: "100%", height: "100%" }}
+                    resizeMode="contain"
+                    source={AppIcons.box1}
+                    fit="contain"
+                  />
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
         </ScrollView>
 
@@ -334,7 +296,7 @@ const Home = (props) => {
 
             <QRCode
               getRef={(ref) => (qrRef.current = ref)}
-              value={profile?.estate_user?.estate_user_id}
+              value={"hfjfjk"}
               size={250}
             />
 

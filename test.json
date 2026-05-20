@@ -1,41 +1,17 @@
 {
-  "message": "Request failed with status code 500",
-  "name": "AxiosError",
-  "stack": "AxiosError: Request failed with status code 500\n    at construct (native)\n    at apply (native)\n    at _construct (http://10.145.108.40:8081/index.bundle//&platform=android&dev=true&hot=false&lazy=true&transform.engine=hermes&transform.bytecode=1&transform.routerRoot=app&unstable_transformProfile=hermes-stable:5080:67)\n    at Wrapper (http://10.145.108.40:8081/index.bundle//&platform=android&dev=true&hot=false&lazy=true&transform.engine=hermes&transform.bytecode=1&transform.routerRoot=app&unstable_transformProfile=hermes-stable:5052:25)\n    at construct (native)\n    at _callSuper (http://10.145.108.40:8081/index.bundle//&platform=android&dev=true&hot=false&lazy=true&transform.engine=hermes&transform.bytecode=1&transform.routerRoot=app&unstable_transformProfile=hermes-stable:4973:110)\n    at AxiosError (http://10.145.108.40:8081/index.bundle//&platform=android&dev=true&hot=false&lazy=true&transform.engine=hermes&transform.bytecode=1&transform.routerRoot=app&unstable_transformProfile=hermes-stable:139972:38)\n    at settle (http://10.145.108.40:8081/index.bundle//&platform=android&dev=true&hot=false&lazy=true&transform.engine=hermes&transform.bytecode=1&transform.routerRoot=app&unstable_transformProfile=hermes-stable:140757:30)\n    at onloadend (http://10.145.108.40:8081/index.bundle//&platform=android&dev=true&hot=false&lazy=true&transform.engine=hermes&transform.bytecode=1&transform.routerRoot=app&unstable_transformProfile=hermes-stable:141229:15)\n    at invoke (http://10.145.108.40:8081/index.bundle//&platform=android&dev=true&hot=false&lazy=true&transform.engine=hermes&transform.bytecode=1&transform.routerRoot=app&unstable_transformProfile=hermes-stable:57166:31)\n    at dispatch (http://10.145.108.40:8081/index.bundle//&platform=android&dev=true&hot=false&lazy=true&transform.engine=hermes&transform.bytecode=1&transform.routerRoot=app&unstable_transformProfile=hermes-stable:57122:13)\n    at value (http://10.145.108.40:8081/index.bundle//&platform=android&dev=true&hot=false&lazy=true&transform.engine=hermes&transform.bytecode=1&transform.routerRoot=app&unstable_transformProfile=hermes-stable:57088:17)\n    at dispatchTrustedEvent (http://10.145.108.40:8081/index.bundle//&platform=android&dev=true&hot=false&lazy=true&transform.engine=hermes&transform.bytecode=1&transform.routerRoot=app&unstable_transformProfile=hermes-stable:57224:53)\n    at setReadyState (http://10.145.108.40:8081/index.bundle//&platform=android&dev=true&hot=false&lazy=true&transform.engine=hermes&transform.bytecode=1&transform.routerRoot=app&unstable_transformProfile=hermes-stable:59078:93)\n    at __didCompleteResponse (http://10.145.108.40:8081/index.bundle//&platform=android&dev=true&hot=false&lazy=true&transform.engine=hermes&transform.bytecode=1&transform.routerRoot=app&unstable_transformProfile=hermes-stable:58895:29)\n    at apply (native)\n    at anonymous (http://10.145.108.40:8081/index.bundle//&platform=android&dev=true&hot=false&lazy=true&transform.engine=hermes&transform.bytecode=1&transform.routerRoot=app&unstable_transformProfile=hermes-stable:59015:124)\n    at apply (native)\n    at emit (http://10.145.108.40:8081/index.bundle//&platform=android&dev=true&hot=false&lazy=true&transform.engine=hermes&transform.bytecode=1&transform.routerRoot=app&unstable_transformProfile=hermes-stable:16077:40)\n    at apply (native)\n    at anonymous (http://10.145.108.40:8081/index.bundle//&platform=android&dev=true&hot=false&lazy=true&transform.engine=hermes&transform.bytecode=1&transform.routerRoot=app&unstable_transformProfile=hermes-stable:15990:21)\n    at emit (http://10.145.108.40:8081/index.bundle//&platform=android&dev=true&hot=false&lazy=true&transform.engine=hermes&transform.bytecode=1&transform.routerRoot=app&unstable_transformProfile=hermes-stable:15972:79)\n    at ?anon_0_ (http://10.145.108.40:8081/index.bundle//&platform=android&dev=true&hot=false&lazy=true&transform.engine=hermes&transform.bytecode=1&transform.routerRoot=app&unstable_transformProfile=hermes-stable:142226:64)\n    at throw (native)\n    at asyncGeneratorStep (http://10.145.108.40:8081/index.bundle//&platform=android&dev=true&hot=false&lazy=true&transform.engine=hermes&transform.bytecode=1&transform.routerRoot=app&unstable_transformProfile=hermes-stable:11713:19)\n    at _throw (http://10.145.108.40:8081/index.bundle//&platform=android&dev=true&hot=false&lazy=true&transform.engine=hermes&transform.bytecode=1&transform.routerRoot=app&unstable_transformProfile=hermes-stable:11730:29)\n    at tryCallOne (address at InternalBytecode.js:1:1180)\n    at anonymous (address at InternalBytecode.js:1:1874)",
-  "config": {
-    "transitional": {
-      "silentJSONParsing": true,
-      "forcedJSONParsing": true,
-      "clarifyTimeoutError": false,
-      "legacyInterceptorReqResOrdering": true
-    },
-    "adapter": ["xhr", "http", "fetch"],
-    "transformRequest": [null],
-    "transformResponse": [null],
-    "timeout": 600000,
-    "xsrfCookieName": "XSRF-TOKEN",
-    "xsrfHeaderName": "X-XSRF-TOKEN",
-    "maxContentLength": -1,
-    "maxBodyLength": -1,
-    "env": {},
-    "headers": {
-      "Accept": "application/json, text/plain, */*",
-      "Content-Type": "application/json",
-      "EstateIQ-Sk-Header": "22-wchvhshcjbdnvjb-2244-vsjdjbd",
-      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzc5MTE2MzQxLCJpYXQiOjE3NzkxMTI3NDEsImp0aSI6ImM1Y2YwNjJmODliNTRjNzg4MTU2YTY4YjcyMDc1ZGMyIiwidXNlcl9pZCI6IjBjMDQ1NDVjLWRhNGUtNGU4Zi05YjZlLTAyZjk4ODg1MTkwZiJ9.e26cqmG3Hn7mgfwA0OKL7wtPeN6gnek4eqa2T46Uyqk"
-    },
-    "baseURL": "https://car-parking-m0e4.onrender.com/api",
-    "method": "delete",
-    "url": "/vehicles/57f99520-cedd-475f-84d7-fdd9c2326e27",
-    "allowAbsoluteUrls": true,
-    "axios-retry": {
-      "retries": 3,
-      "shouldResetTimeout": true,
-      "validateResponse": null,
-      "retryCount": 0,
-      "lastRequestTime": 1779115279210
-    }
+  "access_level": "",
+  "email": "oloyedewaris@gmail.com",
+  "email_verified": false,
+  "first_name": "Waris",
+  "id": "0c04545c-da4e-4e8f-9b6e-02f98885190f",
+  "last_name": "Oloyede",
+  "profile": {
+    "created_at": "2026-05-15T15:55:48.450157+01:00",
+    "phone": "8108745769",
+    "photo": null,
+    "staff_id": "109",
+    "updated_at": "2026-05-15T15:55:48.450172+01:00"
   },
-  "code": "ERR_BAD_RESPONSE",
-  "status": 500
+  "role": "super_admin",
+  "status": "active"
 }

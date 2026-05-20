@@ -1,25 +1,26 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import axiosInstance from "../utils/axiosInstance"
+import axiosInstance from "../utils/axiosInstance";
 
-export const getEstateId = async () => {
-    return await AsyncStorage.getItem('estateId')
-}
+export const getUserDetails = async (id) => {
+  return axiosInstance.get(`/users/${id}/`);
+};
 
-export const updateBioApi = async (body) => {
-    const id = await getEstateId();
-    return await axiosInstance.put(`/estate_users/estate_user_profile_update/?estate_id=${id}`, body);
-}
+export const getAllUsers = async (search, status) => {
+  return axiosInstance.get(`/users/?searc=${search}&status=${status}`);
+};
 
-export const getUserEstateDetails = async () => {
-    const id = await getEstateId();
-    return await axiosInstance.get(`/estate_users/estate_user_detail/?estate_id=${id}`)
-}
+export const approveUserApi = async (id, body) => {
+  return axiosInstance.post(`/users/${id}/approve/`, body);
+};
 
-export const updateUserImage = async (body) => {
-    const id = await getEstateId();
-    return await axiosInstance.post(
-        `/estate_users/estate_user_profile_image_update/?estate_id==${id}`,
-        body,
-        { headers: { "Content-Type": "multipart/form-data", } }
-    )
-}
+export const reactivateUserApi = async (id, body) => {
+  return axiosInstance.post(`/users/${id}/reactivate/`, body);
+};
+
+export const rejectUserApi = async (id, body) => {
+  return axiosInstance.post(`/users/${id}/reject/`, body);
+};
+
+export const suspendUserApi = async (id, body) => {
+  return axiosInstance.post(`/users/${id}/suspend/`, body);
+};
