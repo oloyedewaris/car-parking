@@ -20,7 +20,6 @@ import LongButton from "../../component/longbutton";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import InputCardPassword from "../../component/inputCardPassword";
-import { ToastLong } from "../../helper/toast";
 import { moderateScale } from "react-native-size-matters";
 import { registerApi } from "../../api/auth";
 import { useMutation } from "react-query";
@@ -58,7 +57,6 @@ const Signup = (props) => {
     },
   });
 
-
   const formik = useFormik({
     initialValues: {
       first_name: "",
@@ -72,9 +70,8 @@ const Signup = (props) => {
     validationSchema: Schema,
     onSubmit: (values) => {
       if (values.password !== values.confirm_password)
-        return ToastLong("Password and confirm password doesn't match");
+        return alert("Password and confirm password doesn't match");
       registrationMutation.mutate(values);
-
     },
   });
 
@@ -84,7 +81,12 @@ const Signup = (props) => {
         behavior="height"
         keyboardVerticalOffset={keyboardVerticalOffset}
       >
-        <ScrollView contentContainerStyle={{ paddingBottom: 0, paddingBottom: moderateScale(300) }}>
+        <ScrollView
+          contentContainerStyle={{
+            paddingBottom: 0,
+            paddingBottom: moderateScale(300),
+          }}
+        >
           <View
             style={{
               height: height / 2,
@@ -122,7 +124,7 @@ const Signup = (props) => {
           </View>
           <View
             style={{
-              height: '100%',
+              height: "100%",
               width: "95%",
               backgroundColor: "white",
               marginTop: -(height / 3.1),
@@ -226,7 +228,8 @@ const Signup = (props) => {
             <InputCardPassword
               text={"Confirm Password"}
               error={
-                formik.errors.confirm_password && formik.touched.confirm_password
+                formik.errors.confirm_password &&
+                formik.touched.confirm_password
                   ? formik.errors.confirm_password
                   : ""
               }
@@ -328,16 +331,6 @@ const Signup = (props) => {
                 props.navigation.navigate("login");
               }}
             />
-          </Container>
-          <Container
-            width={100}
-            height={20}
-            verticalAlignment="center"
-            horizontalAlignment="center"
-          >
-            <Container height={30} width={35} marginTop={40}>
-              {/* <ImageWrap source={AppIcons.estate} fit="contain" /> */}
-            </Container>
           </Container>
         </Container>
       </Modal>

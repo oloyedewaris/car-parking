@@ -1,13 +1,11 @@
 import * as React from "react";
 import { View, Platform } from "react-native";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
-import Profilee from "../screens/profile";
-import { Feather, MaterialCommunityIcons } from "@expo/vector-icons";
+import Profile from "../screens/profile";
+import { Feather } from "@expo/vector-icons";
 import Home from "../screens/home";
-import { Fontisto } from "@expo/vector-icons";
-import AccessLog from "../screens/accessLog";
+// import CodeHistory from "../screens/CodeHistory";
 import { Colors } from "../helper/constants";
-import ReportAnIssue from "../screens/reportAnIssue";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -45,7 +43,7 @@ const homeOptions = {
   ),
 };
 
-const accessLogOptions = {
+const codeHistoryOptions = {
   tabBarIcon: ({ focused }) => (
     <View
       style={{
@@ -61,23 +59,7 @@ const accessLogOptions = {
   ),
 };
 
-const reportOptions = {
-  tabBarIcon: ({ focused }) => (
-    <View
-      style={{
-        top: Platform.OS === "ios" ? 10 : 0,
-      }}
-    >
-      <AntDesign
-        name="warning"
-        size={24}
-        color={focused ? Colors.appPrimaryBlue : "gray"}
-      />
-    </View>
-  ),
-};
-
-const generalOptions = ({ route }) => ({
+const generalOptions = () => ({
   tabBarHideOnKeyboard: true,
   tabBarStyle: {
     display: "flex",
@@ -90,7 +72,6 @@ const generalOptions = ({ route }) => ({
     width: "100%",
     height: 55,
   },
-  // tabBarShowLabel: false,
   headerShown: false,
 });
 
@@ -99,19 +80,14 @@ const Dashboard = () => {
     <SafeAreaView style={{ flex: 1 }}>
       <Tab.Navigator screenOptions={generalOptions}>
         <Tab.Screen name="Home" component={Home} options={homeOptions} />
-        <Tab.Screen
-          name="Code history"
-          component={AccessLog}
-          options={accessLogOptions}
-        />
         {/* <Tab.Screen
-          name="ReportAnIssue"
-          component={ReportAnIssue}
-          options={reportOptions}
+          name="Code history"
+          component={CodeHistory}
+          options={codeHistoryOptions}
         /> */}
         <Tab.Screen
           name="Settings"
-          component={Profilee}
+          component={Profile}
           options={profileOptions}
         />
       </Tab.Navigator>

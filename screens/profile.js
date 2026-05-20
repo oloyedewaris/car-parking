@@ -29,8 +29,8 @@ import { useQuery } from "react-query";
 import { getEstateId, getUserEstateDetails } from "../api/user";
 import axiosInstance from "../utils/axiosInstance";
 import * as ImagePicker from "expo-image-picker";
-import { ToastLong } from "../helper/toast";
 import BottomSheet from "../component/bottomSheet";
+import { handleBackendError } from "../utils/errors";
 
 const Profilee = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -64,11 +64,11 @@ const Profilee = (props) => {
         }
       )
       .then(async (res) => {
-        ToastLong("Profile image updated");
+        alert("Profile image updated");
         await userDetailsQuery.refetch();
       })
       .catch((err) => {
-        ToastLong(JSON.stringify(err?.response?.data));
+        Alert.alert("Error", handleBackendError(err));
       })
       .finally(() => setUploading(false));
   };

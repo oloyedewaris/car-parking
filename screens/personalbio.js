@@ -5,6 +5,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Alert,
 } from "react-native";
 import { Container } from "../helper/index";
 import { AntDesign } from "@expo/vector-icons";
@@ -17,7 +18,7 @@ import { useFormik } from "formik";
 import { useMutation } from "react-query";
 import * as Yup from "yup";
 import { getUserEstateDetails, updateBioApi } from "../api/user";
-import { ToastLong } from "../helper/toast";
+import { handleBackendError } from "../utils/errors";
 
 const Personalbio = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -49,7 +50,7 @@ const Personalbio = (props) => {
       setModalVisible(true);
     },
     onError: (err) => {
-      ToastLong(JSON.stringify(err?.response?.data));
+      Alert.alert("Update error", handleBackendError(err));
     },
   });
 

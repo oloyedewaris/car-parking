@@ -228,21 +228,6 @@ const Editprofile = ({ navigation }) => {
               </Text>
             </Container>
           </Container>
-          <Container height={10} width={25} verticalAlignment="center">
-            <TouchWrap onPress={() => navigation.navigate("changeEstate")}>
-              <Container
-                padding={2}
-                backgroundColor={Colors.appPrimaryBlue}
-                borderRadius={5}
-                horizontalAlignment="center"
-                verticalAlignment="center"
-              >
-                <Text style={{ color: "white", fontSize: 12 }}>
-                  Switch Estate
-                </Text>
-              </Container>
-            </TouchWrap>
-          </Container>
         </Container>
         <Container
           width={100}

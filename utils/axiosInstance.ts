@@ -1,7 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { navigate } from "../navigations/RootNavigation";
-import { ToastLong } from "../helper/toast";
 import axiosRetry from "axios-retry";
 
 export const BACKEND_URL: string = "https://car-parking-m0e4.onrender.com/api";
@@ -49,7 +48,6 @@ axiosInstance.interceptors.response.use(
     if (!error?.response) return Promise.reject(error);
 
     if (error?.response?.status === 401) {
-      ToastLong("Your session has expired, login again");
       navigate("logout", { tokenExpired: true });
     } else {
       return Promise.reject(error);

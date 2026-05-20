@@ -8,6 +8,7 @@ import {
   Platform,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from "react-native";
 import { Container, ImageWrap, TouchWrap } from "../../helper/index";
 import { AppIcons } from "../../helper/images";
@@ -22,7 +23,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useMutation } from "react-query";
 import { requestOTP } from "../../api/auth";
-import { ToastLong } from "../../helper/toast";
+import { handleBackendError } from "../../utils/errors";
 
 const Forgetpassword = (props) => {
   const keyboardVerticalOffset = Platform.OS === "ios" ? -40 : -40;
@@ -32,7 +33,7 @@ const Forgetpassword = (props) => {
       props.navigation.navigate("otp", { values: formik.values });
     },
     onError: (err) => {
-      ToastLong(JSON.stringify(err?.response?.data));
+      Alert.alert("Error", handleBackendError(err));
     },
   });
 

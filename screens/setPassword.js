@@ -12,7 +12,6 @@ import { AppIcons } from "../helper/images";
 
 import { AntDesign } from "@expo/vector-icons";
 import { useState } from "react";
-import InputCard from "../component/inputCard";
 import { Colors } from "../helper/constants";
 import LongButton from "../component/longbutton";
 import * as Yup from "yup";

@@ -40,7 +40,7 @@ const Home = (props) => {
 
   const userDetailsQuery = useQuery(
     ["getUserEstateDetails"],
-    getUserEstateDetails,
+    getUserEstateDetails
   );
   const profileImage = userDetailsQuery?.data?.data?.profile_image;
   const profile = userDetailsQuery?.data?.data;
@@ -84,49 +84,6 @@ const Home = (props) => {
           style={{ paddingHorizontal: moderateScale(20) }}
           contentContainerStyle={{ paddingBottom: 50 }}
         >
-          {/* <View
-            style={{
-              alignItems: "center",
-              gap: moderateScale(20),
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
-          >
-            <View
-              style={{
-                alignItems: "center",
-                gap: moderateScale(15),
-                flexDirection: "row",
-              }}
-            >
-              <MaterialIcons name="location-on" size={22} color="#1037B5" />
-              <Text style={{ fontSize: 16 }}>{estateData?.estate?.name}</Text>
-            </View>
-
-            <TouchableOpacity
-              onPress={() => props.navigation.navigate("notifications")}
-              style={{
-                alignItems: "center",
-                gap: moderateScale(10),
-                flexDirection: "row",
-              }}
-            >
-              <Text style={{ fontSize: 16 }}>Announcements</Text>
-              <View
-                style={{
-                  width: 35,
-                  height: 35,
-                  borderRadius: 20,
-                  backgroundColor: "#1037B5",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <FontAwesome5 name="bell" size={20} color="#fff" />
-              </View>
-            </TouchableOpacity>
-          </View> */}
-
           <View
             style={{
               width: "100%",
@@ -198,8 +155,6 @@ const Home = (props) => {
             </View>
           </View>
 
-          {/* <AdvertCarousel page="HOMEPAGE" /> */}
-
           <View
             style={{
               marginTop: moderateScale(50),
@@ -218,9 +173,7 @@ const Home = (props) => {
               }}
             >
               <TouchableOpacity
-                onPress={() =>
-                  props.navigation.navigate("AccessCode")
-                }
+                onPress={() => props.navigation.navigate("VehicleActions")}
               >
                 <Image
                   style={{ width: "100%", height: "100%" }}
@@ -238,9 +191,7 @@ const Home = (props) => {
               }}
             >
               <TouchableOpacity
-                onPress={() =>
-                  props.navigation.navigate("BusinessGenerateCode")
-                }
+                onPress={() => props.navigation.navigate("AccessCode")}
               >
                 <Image
                   style={{ width: "100%", height: "100%" }}
@@ -270,9 +221,7 @@ const Home = (props) => {
               }}
             >
               <TouchableOpacity
-                onPress={() =>
-                  props.navigation.navigate("BusinessGenerateCode")
-                }
+                onPress={() => props.navigation.navigate("AccessCode")}
               >
                 <Image
                   style={{ width: "100%", height: "100%" }}
@@ -283,7 +232,6 @@ const Home = (props) => {
               </TouchableOpacity>
             </View>
           </View>
-
         </ScrollView>
 
         <Modal animationType="slide" visible={modalVisible} transparent>
